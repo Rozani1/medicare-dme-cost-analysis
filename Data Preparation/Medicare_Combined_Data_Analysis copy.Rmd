@@ -1,0 +1,687 @@
+---
+title: "Medicare_Data_Trainning"
+author: "Me"
+date: "2024-10-04"
+output: html_document
+---
+
+## Instal relavent libraries 
+```{r}
+library(dplyr)
+library(corrplot)
+library(ggcorrplot)
+library(caret)
+library(tidyr) 
+library(ggplot2)
+library(stringr)
+library(rcompanion)
+```
+
+## Load 2014 CSV file for Analysis
+```{r}
+data_2014 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2014.csv")
+str(data_2014)
+```
+```{r}
+# Convert empty strings or whitespace to NA
+data_2014 <- data_2014 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2014))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2014$Tot_Suplr_Benes)) / nrow(data_2014) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2014$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2014) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2014$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2014) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2014 <- data_2014[!is.na(data_2014$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2014 <- data_2014 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2014$Tot_Suplr_Benes <- as.integer(data_2014$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2014$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2014$Rfrg_Prvdr_Geo_Cd), "National", data_2014$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2014))
+
+# Check the updated column
+str(data_2014)
+```
+## Load 2015 CSV file for Analysis
+```{r}
+data_2015 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2015.csv")
+str(data_2015)
+```
+```{r}
+# Convert empty strings or whitespace to NA
+data_2015 <- data_2015 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2015))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2015$Tot_Suplr_Benes)) / nrow(data_2015) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2015$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2015) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2015$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2015) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2015 <- data_2015[!is.na(data_2015$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2015 <- data_2015 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2015$Tot_Suplr_Benes <- as.integer(data_2015$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2015$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2015$Rfrg_Prvdr_Geo_Cd), "National", data_2015$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2015))
+
+# Check the updated column
+str(data_2015)
+```
+## Load 2016 CSV file for Analysis
+```{r}
+data_2016 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2016.csv")
+str(data_2016)
+```
+```{r}
+# Convert empty strings or whitespace to NA
+data_2016 <- data_2016 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2016))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2016$Tot_Suplr_Benes)) / nrow(data_2016) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2016$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2016) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2016$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2016) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2016 <- data_2016[!is.na(data_2016$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2016 <- data_2016 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2016$Tot_Suplr_Benes <- as.integer(data_2016$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2016$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2016$Rfrg_Prvdr_Geo_Cd), "National", data_2016$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2016))
+
+# Check the updated column
+str(data_2016)
+```
+## Load 2017 CSV file for Analysis
+```{r}
+data_2017 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2017.csv")
+str(data_2017)
+```
+
+```{r}
+# Convert empty strings or whitespace to NA
+data_2017 <- data_2017 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2017))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2017$Tot_Suplr_Benes)) / nrow(data_2017) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2017$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2017) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2017$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2017) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2017 <- data_2017[!is.na(data_2017$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2017 <- data_2017 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2017$Tot_Suplr_Benes <- as.integer(data_2017$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2017$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2017$Rfrg_Prvdr_Geo_Cd), "National", data_2017$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2017))
+
+# Check the updated column
+str(data_2017)
+```
+## Load 2018 CSV file for Analysis
+```{r}
+data_2018 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2018.csv")
+str(data_2018)
+```
+
+```{r}
+# Convert empty strings or whitespace to NA
+data_2018 <- data_2018 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2018))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2018$Tot_Suplr_Benes)) / nrow(data_2018) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2018$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2018) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2018$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2018) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2018 <- data_2018[!is.na(data_2018$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2018 <- data_2018 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2018$Tot_Suplr_Benes <- as.integer(data_2018$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2018$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2018$Rfrg_Prvdr_Geo_Cd), "National", data_2018$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2018))
+
+# Check the updated column
+str(data_2018)
+```
+## Load 2019 CSV file for Analysis
+```{r}
+data_2019 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2019.csv")
+str(data_2019)
+```
+
+```{r}
+# Convert empty strings or whitespace to NA
+data_2019 <- data_2019 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2019))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2019$Tot_Suplr_Benes)) / nrow(data_2019) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2019$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2019) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2019$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2019) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2019 <- data_2019[!is.na(data_2019$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2019 <- data_2019 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2019$Tot_Suplr_Benes <- as.integer(data_2019$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2019$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2019$Rfrg_Prvdr_Geo_Cd), "National", data_2019$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2019))
+
+# Check the updated column
+str(data_2019)
+```
+## Load 2020 CSV file for Analysis
+```{r}
+data_2020 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2020.csv")
+str(data_2020)
+```
+
+```{r}
+# Convert empty strings or whitespace to NA
+data_2020 <- data_2020 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2020))
+```
+```{r}
+# Calculate the percentage of missing values in the 'Tot_Suplr_Benes' column
+missing_percentage <- sum(is.na(data_2020$Tot_Suplr_Benes)) / nrow(data_2020) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Cd' column
+missing_percentage <- sum(is.na(data_2020$Rfrg_Prvdr_Geo_Cd )) / nrow(data_2020) * 100
+missing_percentage
+
+# Calculate the percentage of missing values in the 'Rfrg_Prvdr_Geo_Desc ' column
+missing_percentage <- sum(is.na(data_2020$Rfrg_Prvdr_Geo_Desc  )) / nrow(data_2020) * 100
+missing_percentage
+```
+```{r}
+# Remove rows with NA in the Rfrg_Prvdr_Geo_Desc column
+data_2020 <- data_2020[!is.na(data_2020$Rfrg_Prvdr_Geo_Desc), ]
+
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2020 <- data_2020 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2020$Tot_Suplr_Benes <- as.integer(data_2020$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2020$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2020$Rfrg_Prvdr_Geo_Cd), "National", data_2020$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2020))
+
+# Check the updated column
+str(data_2020)
+```
+```{r}
+# Add the Year column to each dataset
+data_2014$Year <- as.integer(2014)
+data_2015$Year <- as.integer(2015)
+data_2016$Year <- as.integer(2016)
+data_2017$Year <- as.integer(2017)
+data_2018$Year <- as.integer(2018)
+data_2019$Year <- as.integer(2019)
+data_2020$Year <- as.integer(2020)
+```
+##  Combine all the Data
+
+```{r}
+# Combine all data frames into one
+combined_data <- rbind(data_2014, data_2015, data_2016, data_2017, data_2018, data_2019, data_2020)
+
+# View the combined data
+head(combined_data)
+
+
+#  Write the combined data to a new CSV file
+#write.csv(combined_data, "combined_data.csv", row.names = FALSE)
+``` 
+
+```{r}
+# View the structure of the data
+str(combined_data)
+```
+```{r}
+# Check for missing values in combined_data column
+colSums(is.na(combined_data))
+```
+```{r}
+# Find integer columns ( discrete)
+int_cols <- sapply(combined_data, is.integer)
+discrete_vars <- names(combined_data)[int_cols]
+print("Discrete Variables (Integers):")
+print(discrete_vars)
+
+# Identify continuous variables (numeric but not integers)
+num_cols <- sapply(combined_data, is.numeric)
+continuous_vars <- names(combined_data)[num_cols & !int_cols]
+print("Continuous Variables (Numeric):")
+print(continuous_vars)
+```
+```{r}
+# Identify boolean columns (binary values)
+boolean_columns <- sapply(combined_data, function(x) is.character(x) && length(unique(x)) == 2)
+print(names(combined_data)[boolean_columns])
+```
+```{r}
+# Identify nominal columns (categorical & more than 2 unique value)
+nominal_columns <- sapply(combined_data, function(x) is.character(x) && length(unique(x)) > 2)
+
+print(names(combined_data)[nominal_columns])
+```
+```{r}
+
+```
+## Duplicate Analysis
+```{r}
+# Check for duplicate rows in the combined_data
+duplicate_rows <- sum(duplicated(combined_data))
+
+# Print the number of duplicate rows
+print(paste("Number of duplicate rows: ", duplicate_rows))
+```
+
+
+# Normalization 
+
+```{r}
+# Loop through each continuous variable and plot histograms
+for (col_name in continuous_vars) {
+  
+  # Extract the data for the current column
+  column_data <- combined_data[[col_name]]
+  
+# Plot histogram with a normal curve using plotNormalHistogram()
+  plotNormalHistogram(column_data, 
+                      main = paste("Histogram of", col_name), 
+                      xlab = col_name)
+}
+
+```
+```{r}
+# Subsample 5000 rows from each continuous column 
+subsample_Avg_Suplr_Sbmtd_Chrg <- sample(combined_data[["Avg_Suplr_Sbmtd_Chrg"]], 5000)
+
+# Apply the Shapiro-Wilk test
+print(shapiro.test(subsample_Avg_Suplr_Sbmtd_Chrg))
+
+subsample_Avg_Suplr_Mdcr_Alowd_Amt <- sample(combined_data[["Avg_Suplr_Mdcr_Alowd_Amt"]], 5000)
+print(shapiro.test(subsample_Avg_Suplr_Mdcr_Alowd_Amt))
+
+subsample_Avg_Suplr_Mdcr_Pymt_Amt <- sample(combined_data[["Avg_Suplr_Mdcr_Pymt_Amt"]], 5000)
+print( shapiro.test(subsample_Avg_Suplr_Mdcr_Pymt_Amt))
+
+subsample_Avg_Suplr_Mdcr_Stdzd_Amt <- sample(combined_data[["Avg_Suplr_Mdcr_Stdzd_Amt"]], 5000)
+print( shapiro.test(subsample_Avg_Suplr_Mdcr_Stdzd_Amt))
+```
+```{r}
+# Scale the continuous variables without modifying the original dataset
+scaled_data <- scale(combined_data[continuous_vars])
+# View the scaled dataset (just the scaled variables)
+head(scaled_data)
+```
+```{r}
+# Loop through each numeric column in the scaled data and plot a histogram
+for (i in 1:ncol(scaled_data)) {
+  # Plot histogram with a normal curve
+    plotNormalHistogram(scaled_data, 
+                        main = paste("Histogram of scaled_data", col_name),
+                        xlab = col_name)
+}
+```
+```{r}
+# Loop through each continuous variable and apply square root transformation
+for (col_name in continuous_vars) {
+  
+  # Apply square root transformation
+  transformed_data <- sqrt(combined_data[[col_name]])
+  
+    # Plot histogram with a normal curve
+    plotNormalHistogram(transformed_data, 
+                        main = paste("Histogram of T_Square", col_name),
+                        xlab = col_name)
+  }
+
+```
+```{r}
+# Apply cube root transformation and plot histograms
+for (col_name in continuous_vars) {
+  
+  # Apply cube root transformation
+  T_cub <- sign(combined_data[[col_name]]) * abs(combined_data[[col_name]])^(1/3)
+  
+  # plot histograms with normal distribution overlay
+  plotNormalHistogram(T_cub, 
+                      main = paste("Histogram of T_Cube", col_name), 
+                      xlab = col_name)
+}
+```
+```{r}
+# Loop through each continuous variable, apply log transformation, and plot histograms
+for (col_name in continuous_vars) {
+  
+ # Apply log transformation with a small constant added
+T_log <- log(combined_data[[col_name]] + 1)  # Add 1 to avoid log(0) errors
+  # plot histograms with normal distribution overlay
+  plotNormalHistogram(T_log, 
+                      main = paste("Histogram of T_log", col_name), 
+                      xlab = col_name) 
+
+   # QQ Plot for log-transformed variable
+  qqnorm(T_log, 
+         ylab = paste("Sample Quantiles for", col_name), 
+         main = paste("QQ Plot ", col_name))
+  
+  # Add QQ line
+  qqline(T_log, 
+         col = "red")
+}
+
+```
+```{r}
+# Randomly sample 5000 rows from the dataset
+subsample <- sample(T_log, 5000)
+
+# Apply the Shapiro-Wilk test to the subsample
+shapiro.test(subsample)
+```
+
+```{r}
+# Calculate Spearman's Rank Correlation for continuous variables
+spearman_correlation_matrix <- cor(combined_data[continuous_vars], method = "spearman")
+
+# View the Spearman correlation matrix
+print(spearman_correlation_matrix)
+
+```
+
+```{r}
+# Loop through each discrete variable and plot histograms
+for (col_name in discrete_vars) {
+  
+  # Extract the data for the current column
+  column_data <- combined_data[[col_name]]
+  
+  # Plot histogram for the discrete variable with normal distribution overlay
+   plotNormalHistogram(column_data, 
+                      main = paste("Histogram of Discrete", col_name), 
+                      xlab = col_name)
+}
+```
+```{r}
+# Loop through each discrete variable and create a bar plot
+for (col_name in discrete_vars) {
+  # Create the bar plot
+  barplot(table(combined_data[[col_name]]), 
+          main = paste("Distribution of", col_name), 
+          xlab = col_name, 
+          ylab = "Frequency",
+          col = "red")
+          
+}
+```
+```{r}
+# Calculate Spearman's Rank Correlation for discrete variables
+spearman_correlation_matrix <- cor(combined_data[discrete_vars], method = "spearman")
+
+# View the Spearman correlation matrix
+print(spearman_correlation_matrix)
+```
+```{r}
+# Filter out only numeric columns from combined_data
+numeric_data <- combined_data[, sapply(combined_data, is.numeric)]
+
+# Calculate the Spearman correlation matrix for numeric columns
+spearman_cor <- cor(numeric_data, method = "spearman", use = "complete.obs")
+
+# Generate a heat map for the Spearman correlation matrix
+corrplot(spearman_cor, method = "color", type = "ful",tl.cex = 0.5, addCoef.col = "black")
+
+```
+```{r}
+#  Barplot for binary categorical variable 
+# Suplr_Rentl_Ind
+barplot(table(combined_data$Suplr_Rentl_Ind), main = "Barplot of Suplr_Rentl_Ind", 
+        xlab = "Supplier Rental Indicator", col = "orange")
+#Rfrg_Prvdr_Geo_Lvl 
+barplot(table(combined_data$Rfrg_Prvdr_Geo_Lvl), main = "Barplot of Rfrg_Prvdr_Geo_Lvl", 
+        xlab = "Referring Provider Geography Level ", col = "blue")
+```
+
+## EDA analysis
+```{r}
+# Install package
+#install.packages("dataMaid")
+# Import library
+#library(dataMaid)
+# Create report
+#makeDataReport(combined_data, output = "html", replace = TRUE)
+```
+## Defining underserved regions 
+
+
+```{r}
+
+#  Calculating percentiles for high charges and low service volumes
+charge_threshold_high <- quantile(combined_data$Avg_Suplr_Sbmtd_Chrg, 0.95, na.rm = TRUE)  # 90th percentile for charges
+service_threshold_low <- quantile(combined_data$Tot_Suplr_Srvcs, 0.05, na.rm = TRUE)  # 10th percentile for services
+
+# Flagging unusually high charges (above 95th percentile)
+combined_data <- combined_data %>%
+  mutate(high_charges = ifelse(Avg_Suplr_Sbmtd_Chrg >= charge_threshold_high, TRUE, FALSE))
+
+# Flagging low service volumes (below 5th percentile)
+combined_data <- combined_data %>%
+  mutate(low_service_volumes = ifelse(Tot_Suplr_Srvcs <= service_threshold_low, TRUE, FALSE))
+
+# Defining underserved regions where both conditions are met
+combined_data <- combined_data %>%
+  mutate(is_underserved = ifelse(high_charges == TRUE & low_service_volumes == TRUE, TRUE, FALSE))
+
+# Summary statistics for underserved regions
+underserved_regions <- combined_data %>% filter(is_underserved == TRUE)
+
+#summary(underserved_regions)
+#str(underserved_regions)
+
+#  View underserved regions
+head(underserved_regions)
+
+```
+```{r}
+# Filter the underserved regions
+underserved_regions <- combined_data %>% filter(is_underserved == TRUE)
+
+# View the first few rows with geographic data and year
+head(underserved_regions %>% select(Year, Rfrg_Prvdr_Geo_Desc, Rfrg_Prvdr_Geo_Cd, Tot_Suplr_Srvcs, Avg_Suplr_Sbmtd_Chrg))
+
+# Group underserved regions by year and geographic description
+underserved_by_year_geo <- underserved_regions %>%
+  group_by(Year, Rfrg_Prvdr_Geo_Desc) %>%
+  summarise(Total_Underserved = n(),
+            Avg_Supplier_Services = mean(Tot_Suplr_Srvcs, na.rm = TRUE),
+            Avg_Supplier_Charges = mean(Avg_Suplr_Sbmtd_Chrg, na.rm = TRUE)) %>%
+  arrange(Year, desc(Total_Underserved))
+
+# View the underserved regions by year and geography
+head(underserved_by_year_geo)
+
+```
+```{r}
+
+# Select the top 5 underserved regions for each year using the filtered dataset
+top_underserved_by_year <- underserved_by_year_geo %>%
+  group_by(Year) %>%
+  slice_max(order_by = Total_Underserved, n = 5) %>%
+  ungroup()
+
+# Plot the top 5 underserved regions by year and geographic area
+ggplot(top_underserved_by_year, 
+       aes(x=reorder(Rfrg_Prvdr_Geo_Desc, -Total_Underserved), y=Total_Underserved, fill=factor(Year))) +
+  geom_bar(stat="identity") +
+  coord_flip() +  # Flip the coordinates to make the bar chart horizontal
+  facet_wrap(~ Year, scales = "free_y") +  
+  labs(title="Top 5 Underserved Regions by Year", x="Geographic Region", y="Total Underserved") +
+  
+  theme_minimal() 
+
+```
+
+
+```{r}
+# Plot trend of underserved regions over time
+ggplot(underserved_by_year_geo, aes(x=Year, y=Total_Underserved, color=Rfrg_Prvdr_Geo_Desc)) +
+  geom_line() +
+  labs(title="Trend of Underserved Regions Over Time", x="Year", y="Total Underserved") +
+  theme_minimal()
+```
+```{r}
+write.csv(combined_data, "combined_data.csv", row.names = FALSE)
+```
+```{r}
+# View a summary of the combined_data
+summary(combined_data)
+
+# Step 1: Identify numeric columns
+num_cols <- combined_data[sapply(combined_data, is.numeric)]
+
+# Step 2: Calculate standard deviation for each numeric column
+sd_values <- sapply(num_cols, sd)
+
+# Print the standard deviation values
+print(sd_values)
+```
+
+```{r}
+
+```
