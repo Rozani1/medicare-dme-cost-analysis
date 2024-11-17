@@ -1,0 +1,132 @@
+---
+title: "Test data"
+author: "Me"
+date: "2024-11-12"
+output: html_document
+---
+
+## Instal relavent libraries 
+```{r}
+library(dplyr)
+library(stringr)
+```
+## Load 2021 CSV file 
+```{r}
+data_2021 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2021.csv")
+str(data_2021)
+```
+
+```{r}
+# Convert empty strings or whitespace to NA
+data_2021 <- data_2021 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2021))
+```
+```{r}
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2021 <- data_2021 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2021$Tot_Suplr_Benes <- as.integer(data_2021$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2021$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2021$Rfrg_Prvdr_Geo_Cd), "National", data_2021$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2021))
+
+# Check the updated column
+str(data_2021)
+```
+## Load 2022 CSV file 
+```{r}
+data_2022 <- read.csv("Medicare_DME_Devices_Supplies_by_Geography_and_Service_2022.csv")
+str(data_2022)
+```
+```{r}
+# Convert empty strings or whitespace to NA
+data_2022 <- data_2022 %>%
+  mutate(across(everything(), ~ ifelse(. == "" | str_trim(.) == "", NA, .)))
+
+# Check for missing values in each column
+colSums(is.na(data_2022))
+```
+
+```{r}
+# Replaces missing values in the 'Tot_Suplr_Benes' column with the median of that column.
+data_2022 <- data_2022 %>%
+  mutate(Tot_Suplr_Benes = ifelse(is.na(Tot_Suplr_Benes), median(Tot_Suplr_Benes, na.rm = TRUE), Tot_Suplr_Benes))
+
+#convert the column back to integer after the imputation
+data_2022$Tot_Suplr_Benes <- as.integer(data_2022$Tot_Suplr_Benes)
+
+# Replace NA values in 'Rfrg_Prvdr_Geo_Cd' with "National"
+data_2022$Rfrg_Prvdr_Geo_Cd <- ifelse(is.na(data_2022$Rfrg_Prvdr_Geo_Cd), "National", data_2022$Rfrg_Prvdr_Geo_Cd)
+
+# Check for missing values in each updated column
+colSums(is.na(data_2022))
+
+# Check the updated column
+str(data_2022)
+```
+```{r}
+# Add the Year column to each dataset
+data_2021$Year <- as.integer(2021)
+data_2022$Year <- as.integer(2022)
+```
+##  Combine all the test Data
+```{r}
+# Combine 2021 & 2022 data frames into one
+combined_data <- rbind(data_2021,data_2022 )
+
+# View the combined test data
+head(combined_data)
+```
+## Defining underserved regions 
+
+```{r}
+#  Calculating percentiles for high charges and low service volumes
+charge_threshold_high <- quantile(combined_data$Avg_Suplr_Sbmtd_Chrg, 0.95, na.rm = TRUE)  # 90th percentile for charges
+service_threshold_low <- quantile(combined_data$Tot_Suplr_Srvcs, 0.05, na.rm = TRUE)  # 10th percentile for services
+
+# Flagging unusually high charges (above 95th percentile)
+combined_data <- combined_data %>%
+  mutate(high_charges = ifelse(Avg_Suplr_Sbmtd_Chrg >= charge_threshold_high, TRUE, FALSE))
+
+# Flagging low service volumes (below 5th percentile)
+combined_data <- combined_data %>%
+  mutate(low_service_volumes = ifelse(Tot_Suplr_Srvcs <= service_threshold_low, TRUE, FALSE))
+
+# Defining underserved regions where both conditions are met
+combined_data <- combined_data %>%
+  mutate(is_underserved = ifelse(high_charges == TRUE & low_service_volumes == TRUE, TRUE, FALSE))
+
+```
+```{r}
+# Create a new variable to categorize regions based on high charges and low service volumes
+combined_data <- combined_data %>%
+  mutate(underserved_level = case_when(
+    high_charges == TRUE & low_service_volumes == TRUE ~ "High Underserved",   # Both conditions met
+    high_charges == TRUE | low_service_volumes == TRUE ~ "Low Underserved",    # Either condition met
+    TRUE ~ "Not Underserved"  # Neither condition met
+  ))
+
+# View the updated categories
+head(combined_data)
+```
+```{r}
+# View the updated categories
+str(combined_data)
+
+# Check for missing values in combined_data column
+colSums(is.na(combined_data))
+```
+```{r}
+#  Write the combined Test data to a new CSV file
+write.csv(combined_data, "Test_data.csv", row.names = FALSE)
+``` 
+
+
