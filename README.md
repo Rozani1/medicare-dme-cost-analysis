@@ -1,4 +1,4 @@
-# Medicare DME Cost Analysis
+# Unveiling Temporal Disparities in Medicare DME: Machine Learning with Time-Series Cross-Validation for Cost Efficiency and Resource Allocation
 
 ## Overview
 
@@ -88,6 +88,22 @@ The findings contribute actionable insights to:
 - Enhance Medicare's cost efficiency.
 - Optimize resource allocation.
 - Ensure equitable access to DMEPOS services.
+
+## Repository Structure
+
+```
+├── README.md                            # Overview of the project and repository
+├── Data Preparation/                    # Scripts and resources for preparing raw data
+│   └── README.md                        # Explanation of the data preparation folder
+├── Data/                                # Raw and processed data files
+│   └── README.md                        # Explanation of the data folder
+├── Report/                              # Project reports, including summaries and findings
+│   └── README.md                        # Explanation of the report folder
+├── Visuals/                             # Visualizations, charts, and related media
+│   └── README.md                        # Explanation of the visuals folder
+├── Literature Review/                   # Documents containing literature review and related descriptions
+│   └── README.md                        # Explanation of the literature review folder
+```
 
 ## Acknowledgments
 
