@@ -1,4 +1,4 @@
-# Unveiling Temporal Disparities in Medicare DME: Machine Learning with Time-Series Cross-Validation for Cost Efficiency and Resource Allocation
+# Temporal Disparities in U.S. Medicare DME Costs (2014-2022): A Time-Series Cross-Validation Approach for Efficient Resource Allocation
 
 ## Overview
 
