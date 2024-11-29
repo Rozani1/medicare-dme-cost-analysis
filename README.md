@@ -94,7 +94,7 @@ The findings contribute actionable insights to:
 ---
 
 ## Repository Structure
-
+```plaintext
 ├── README.md                            # Overview of the project and repository
 ├── Data Preparation/                    # Scripts and resources for preparing raw data
 │   └── README.md                        # Explanation of the data preparation folder
@@ -109,7 +109,7 @@ The findings contribute actionable insights to:
 ├── Report/                              # Drafts, summaries, and progress reports
 │   └── README.md                        # Explanation of the report folder
 ├── Visuals/                             # Visualizations, charts, and related media
-
+```
 
 ---
 
