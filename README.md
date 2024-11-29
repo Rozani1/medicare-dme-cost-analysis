@@ -4,6 +4,8 @@
 
 This project investigates temporal disparities in Medicare Durable Medical Equipment, Prosthetics, Orthotics, and Supplies (DMEPOS) to improve cost efficiency and resource allocation using machine learning and time-series cross-validation techniques.
 
+---
+
 ## Project Goals
 
 The project aims to:
@@ -12,6 +14,8 @@ The project aims to:
 2. Identify underserved regions with high supplier charges and low service volumes.
 3. Analyze long-term trends in DMEPOS billing practices and resource allocation.
 4. Inform policy decisions to improve Medicare's cost efficiency and accessibility.
+
+---
 
 ## Dataset
 
@@ -33,6 +37,8 @@ The project aims to:
 - **Test set**: 2021-2022
 - Time Series cross-validation was employed to preserve temporal order and prevent data leakage.
 
+---
+
 ## Methodology
 
 The project leverages the following approaches:
@@ -46,19 +52,18 @@ The project leverages the following approaches:
 ### Machine Learning Models
 
 1. **Anomaly Detection**:
-
    - Isolation Forest
    - Local Outlier Factor (LOF)
 
 2. **Classification**:
-
    - Logistic Regression
    - Random Forest
 
 3. **Time-Series Forecasting**:
-
    - ARIMA
    - Prophet
+
+---
 
 ### Key Innovations
 
@@ -66,12 +71,16 @@ The project leverages the following approaches:
 - **Underserved Regions**: Defined as areas with supplier charges in the 95th percentile and service volumes in the 5th percentile.
 - **Cost-Sensitive Learning**: Balancing detection trade-offs for efficiency.
 
+---
+
 ## Tools and Technologies
 
-- Programming: Python, R
-- Libraries: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
-- Development: Jupyter Notebook, Google Colab
-- Repository: [GitHub Project](https://github.com/Rozani1/medicare-dme-cost-analysis)
+- **Programming**: Python, R, Tableau
+- **Libraries**: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+- **Development**: Jupyter Notebook, Google Colab
+- **Repository**: [GitHub Project](https://github.com/Rozani1/medicare-dme-cost-analysis)
+
+---
 
 ## Research Questions
 
@@ -81,6 +90,8 @@ The project leverages the following approaches:
 4. How have supplier charges varied by region over time, and how can these temporal trends help optimize costs?
 5. What are the temporal trends in DME service distribution across geographic regions, and how can these trends identify underserved regions over time?
 
+---
+
 ## Results and Findings
 
 The findings contribute actionable insights to:
@@ -89,27 +100,35 @@ The findings contribute actionable insights to:
 - Optimize resource allocation.
 - Ensure equitable access to DMEPOS services.
 
+---
+
 ## Repository Structure
 
-```
+```plaintext
 ├── README.md                            # Overview of the project and repository
 ├── Data Preparation/                    # Scripts and resources for preparing raw data
 │   └── README.md                        # Explanation of the data preparation folder
 ├── Data/                                # Raw and processed data files
 │   └── README.md                        # Explanation of the data folder
-├── Report/                              # Project reports, including summaries and findings
+├── Final Report/                        # Finalized project reports and findings
+│   └── README.md                        # Explanation of the Finalized project reports 
+├── Initial Results and Code/            # Exploratory analysis, initial results, and code
+│   └── README.md                        # Explanation of the initial results
+├── Literature Review/                   # Supporting references and literature
+│   └── README.md                        # Explanation of the literature review folder
+├── Report/                              # Drafts, summaries, and progress reports
 │   └── README.md                        # Explanation of the report folder
 ├── Visuals/                             # Visualizations, charts, and related media
-│   └── README.md                        # Explanation of the visuals folder
-├── Literature Review/                   # Documents containing literature review and related descriptions
-│   └── README.md                        # Explanation of the literature review folder
-```
+
+---
 
 ## Acknowledgments
 
 - **Author**: Rozani Jeganathan
 - **Supervisor**: Tamer Abdou, PhD
 - **Institution**: The G. Raymond Chang School of Continuing Education, Toronto Metropolitan University
+
+---
 
 ## License
 
