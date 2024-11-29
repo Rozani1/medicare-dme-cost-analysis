@@ -39,6 +39,16 @@ The project aims to:
 
 ---
 
+## Research Questions
+
+1. How do supplier service volumes and Medicare payments fluctuate over time, and which specific periods exhibit inefficiencies or potential fraud requiring targeted interventions?
+2. How do correlations between service volumes and supplier charges evolve over time, and what temporal patterns suggest inefficiencies or irregular relationships?
+3. Do certain regions consistently show higher supplier service volumes and Medicare payments, and are underserved areas disproportionately charged higher rates during specific periods, which could support targeted policy interventions?
+4. How have supplier charges varied by region over time, and how can these temporal trends help optimize costs?
+5. What are the temporal trends in DME service distribution across geographic regions, and how can these trends identify underserved regions over time?
+
+---
+
 ## Methodology
 
 The project leverages the following approaches:
@@ -73,25 +83,6 @@ The project leverages the following approaches:
 
 ---
 
-## Tools and Technologies
-
-- **Programming**: Python, R, Tableau
-- **Libraries**: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
-- **Development**: Jupyter Notebook, Google Colab
-- **Repository**: [GitHub Project](https://github.com/Rozani1/medicare-dme-cost-analysis)
-
----
-
-## Research Questions
-
-1. How do supplier service volumes and Medicare payments fluctuate over time, and which specific periods exhibit inefficiencies or potential fraud requiring targeted interventions?
-2. How do correlations between service volumes and supplier charges evolve over time, and what temporal patterns suggest inefficiencies or irregular relationships?
-3. Do certain regions consistently show higher supplier service volumes and Medicare payments, and are underserved areas disproportionately charged higher rates during specific periods, which could support targeted policy interventions?
-4. How have supplier charges varied by region over time, and how can these temporal trends help optimize costs?
-5. What are the temporal trends in DME service distribution across geographic regions, and how can these trends identify underserved regions over time?
-
----
-
 ## Results and Findings
 
 The findings contribute actionable insights to:
@@ -104,7 +95,6 @@ The findings contribute actionable insights to:
 
 ## Repository Structure
 
-```plaintext
 ├── README.md                            # Overview of the project and repository
 ├── Data Preparation/                    # Scripts and resources for preparing raw data
 │   └── README.md                        # Explanation of the data preparation folder
@@ -120,6 +110,16 @@ The findings contribute actionable insights to:
 │   └── README.md                        # Explanation of the report folder
 ├── Visuals/                             # Visualizations, charts, and related media
 
+
+---
+
+## Tools and Technologies
+
+- **Programming**: Python, R, Tableau
+- **Libraries**: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+- **Development**: Jupyter Notebook, Google Colab
+- **Repository**: [GitHub Project](https://github.com/Rozani1/medicare-dme-cost-analysis)
+
 ---
 
 ## Acknowledgments
@@ -133,6 +133,4 @@ The findings contribute actionable insights to:
 ## License
 
 This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
-
-
 
