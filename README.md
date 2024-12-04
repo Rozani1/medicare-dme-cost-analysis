@@ -106,7 +106,7 @@ The findings contribute actionable insights to:
 │   └── README.md                        # Explanation of the initial results
 ├── Literature Review/                   # Supporting references and literature
 │   └── README.md                        # Explanation of the literature review folder
-├── Report/                              # Drafts, summaries, and progress reports
+├── Report/                              # Research Question (RQ) notebooks, summaries, and progress reports
 │   └── README.md                        # Explanation of the report folder
 ├── Visuals/                             # Visualizations, charts, and related media
 ```
