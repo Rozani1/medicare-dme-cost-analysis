@@ -1,5 +1,5 @@
 ## Updates
-- **Initial Results:** All early analysis and findings have been consolidated into the **Report** section. [Check the Report Section]((https://github.com/Rozani1/medicare-dme-cost-analysis/tree/main/Report)) for details.
+- **Initial Results:** All early analysis and findings have been consolidated into the **Report** section. [Check the Report Section] (https://github.com/Rozani1/medicare-dme-cost-analysis/tree/main/Report) for details.
 
 
 
