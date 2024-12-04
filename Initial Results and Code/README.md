@@ -1,3 +1,9 @@
+## Updates
+- **Initial Results:** All early analysis and findings have been consolidated into the **Report** section. [Check the Report Section](https://github.com/Rozani1/medicare-dme-cost-analysis/edit/main/Initial%20Results%20and%20Code/README.md#:~:text=Literature%20Review-,Report,-Visuals) for details.
+
+
+
+
 ## Research Question 2: Initial Results and Code Walkthrough
 
 This section focuses on **Research Question 2**:
